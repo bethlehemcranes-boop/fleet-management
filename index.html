@@ -10,7 +10,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .app{display:flex;height:100vh;overflow:hidden}
 .sidebar{width:230px;min-width:230px;background:#fff;border-right:1px solid #e8e8e8;display:flex;flex-direction:column;overflow-y:auto}
 .logo{padding:20px 18px 16px;border-bottom:1px solid #e8e8e8}
-.logo-title{font-size:16px;font-weight:600;color:#1a1a1a;letter-spacing:-.2px}
+.logo-title{font-size:16px;font-weight:600;color:#1a1a1a}
 .logo-sub{font-size:11px;color:#888;margin-top:3px}
 .nav-section{padding:12px 0}
 .nav-label{font-size:10px;font-weight:600;color:#aaa;padding:0 18px 6px;text-transform:uppercase;letter-spacing:.6px}
@@ -26,7 +26,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .btn:hover{background:#f5f5f5}
 .btn:disabled{opacity:.6;cursor:not-allowed}
 .btn-primary{background:#185FA5;color:#fff;border-color:#185FA5}
-.btn-primary:hover{background:#0C447C;border-color:#0C447C}
+.btn-primary:hover{background:#0C447C}
+.btn-success{background:#1e7e34;color:#fff;border-color:#1e7e34}
+.btn-success:hover{background:#155724}
 .content{padding:22px;flex:1}
 .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:22px}
 .stat-card{background:#fff;border-radius:10px;padding:14px 16px;border:1px solid #e8e8e8}
@@ -48,12 +50,15 @@ tr:hover td{background:#fafafa}
 .badge-maintenance{background:#fff3cd;color:#856404}
 .badge-idle{background:#e8f0fe;color:#1967d2}
 .badge-retired{background:#fce8e6;color:#c5221f}
-.action-btn{padding:3px 10px;border-radius:6px;border:1px solid #e0e0e0;background:none;font-size:11px;cursor:pointer;color:#555;font-family:inherit;transition:all .15s}
+.action-btn{padding:3px 10px;border-radius:6px;border:1px solid #e0e0e0;background:none;font-size:11px;cursor:pointer;color:#555;font-family:inherit;transition:all .15s;text-decoration:none;display:inline-block}
 .action-btn:hover{background:#f0f0f0}
 .action-btn.del:hover{background:#fce8e6;color:#c5221f;border-color:#f5c6c2}
+.action-btn.docs{background:#EBF4FF;color:#185FA5;border-color:#c5ddf7}
+.action-btn.docs:hover{background:#c5ddf7}
 .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;z-index:200}
 .modal-backdrop.open{display:flex}
-.modal{background:#fff;border-radius:12px;box-shadow:0 8px 40px rgba(0,0,0,.18);width:560px;max-width:96vw;max-height:90vh;overflow-y:auto}
+.modal{background:#fff;border-radius:12px;box-shadow:0 8px 40px rgba(0,0,0,.18);width:700px;max-width:97vw;max-height:92vh;overflow-y:auto}
+.modal-lg{width:860px}
 .modal-header{padding:16px 20px;border-bottom:1px solid #f0f0f0;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:#fff;z-index:1}
 .modal-title{font-size:14px;font-weight:600;color:#1a1a1a}
 .modal-body{padding:20px}
@@ -63,27 +68,38 @@ tr:hover td{background:#fafafa}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 input,select,textarea{width:100%;padding:8px 10px;border:1px solid #ddd;border-radius:7px;background:#fff;color:#1a1a1a;font-size:13px;font-family:inherit;transition:border .15s}
 input:focus,select:focus,textarea:focus{outline:none;border-color:#185FA5;box-shadow:0 0 0 3px rgba(24,95,165,.08)}
-.close-btn{background:none;border:none;font-size:20px;cursor:pointer;color:#aaa;line-height:1;padding:0 2px}
+.close-btn{background:none;border:none;font-size:20px;cursor:pointer;color:#aaa;line-height:1}
 .close-btn:hover{color:#333}
 .empty-state{text-align:center;padding:36px;color:#aaa;font-size:13px}
 .section{display:none}.section.active{display:block}
 .tab-bar{display:flex;border-bottom:1px solid #e8e8e8;margin-bottom:16px}
-.tab{padding:9px 16px;font-size:13px;cursor:pointer;color:#888;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s}
+.tab{padding:9px 16px;font-size:13px;cursor:pointer;color:#888;border-bottom:2px solid transparent;margin-bottom:-1px}
 .tab:hover{color:#333}
 .tab.active{color:#185FA5;border-bottom-color:#185FA5;font-weight:500}
-.toast{position:fixed;bottom:24px;right:24px;background:#1a1a1a;color:#fff;padding:11px 18px;border-radius:8px;font-size:13px;z-index:999;opacity:0;transition:opacity .3s;pointer-events:none;max-width:320px}
+.toast{position:fixed;bottom:24px;right:24px;background:#1a1a1a;color:#fff;padding:11px 18px;border-radius:8px;font-size:13px;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none;max-width:340px}
 .toast.show{opacity:1}
 .conn-badge{font-size:11px;padding:5px 11px;border-radius:20px;font-weight:500;background:#e6f4ea;color:#1e7e34}
 .conn-badge.error{background:#fce8e6;color:#c5221f}
 .conn-badge.loading{background:#f0f0f0;color:#888}
-.expired{color:#c5221f;font-weight:500}
-@media(max-width:768px){
-  .sidebar{display:none}
-  .stats-row{grid-template-columns:1fr 1fr}
-  .form-row{grid-template-columns:1fr}
-  .app{display:block;height:auto}
-  .main{height:100vh}
-}
+.sec-divider{font-size:10px;font-weight:700;color:#185FA5;text-transform:uppercase;letter-spacing:.7px;padding:14px 0 8px;border-bottom:2px solid #EBF4FF;margin-bottom:14px}
+.exp-ok{color:#1e7e34;font-weight:500}
+.exp-warn{color:#856404;font-weight:500}
+.exp-bad{color:#c5221f;font-weight:500}
+.expiry-hint{font-size:11px;margin-top:4px}
+.doc-upload-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.doc-slot{border:1.5px dashed #ddd;border-radius:8px;padding:12px;background:#fafafa;transition:all .15s}
+.doc-slot.selected{border-color:#185FA5;background:#EBF4FF}
+.doc-slot-title{font-size:11px;font-weight:600;color:#444;margin-bottom:7px}
+.doc-slot input[type=file]{font-size:11px;color:#666;width:100%}
+.doc-slot-status{font-size:11px;margin-top:5px;color:#aaa}
+.doc-slot-status.ok{color:#1e7e34}
+.docs-list .doc-item{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;border-bottom:1px solid #f5f5f5}
+.docs-list .doc-item:last-child{border-bottom:none}
+.docs-list .doc-item:hover{background:#fafafa}
+.doc-icon-box{width:34px;height:34px;border-radius:7px;background:#EBF4FF;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.doc-name{font-size:13px;font-weight:500}
+.doc-meta{font-size:11px;color:#888;margin-top:1px}
+@media(max-width:768px){.sidebar{display:none}.stats-row{grid-template-columns:1fr 1fr}.form-row{grid-template-columns:1fr}.doc-upload-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -129,7 +145,6 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:#185FA5;box-sh
         <span class="conn-badge loading" id="conn-badge">Connecting...</span>
       </div>
     </div>
-
     <div class="content">
 
       <!-- DASHBOARD -->
@@ -137,16 +152,16 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:#185FA5;box-sh
         <div class="stats-row">
           <div class="stat-card"><div class="stat-label">Total Vendors</div><div class="stat-value" id="stat-vendors">—</div><div class="stat-sub">registered suppliers</div></div>
           <div class="stat-card"><div class="stat-label">Total Cranes</div><div class="stat-value" id="stat-cranes">—</div><div class="stat-sub">in fleet</div></div>
-          <div class="stat-card"><div class="stat-label">Active</div><div class="stat-value" id="stat-active">—</div><div class="stat-sub">operational cranes</div></div>
-          <div class="stat-card"><div class="stat-label">Maintenance</div><div class="stat-value" id="stat-maint">—</div><div class="stat-sub">under service</div></div>
+          <div class="stat-card"><div class="stat-label">Active</div><div class="stat-value" id="stat-active">—</div><div class="stat-sub">operational</div></div>
+          <div class="stat-card"><div class="stat-label">Expiring Soon</div><div class="stat-value" id="stat-expiring" style="color:#856404">—</div><div class="stat-sub">docs within 30 days</div></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">⚠ Compliance Alerts</span></div>
+          <div class="table-wrap"><table><thead><tr><th>Crane</th><th>Reg No</th><th>Document</th><th>Expiry Date</th><th>Status</th></tr></thead><tbody id="dash-alerts"><tr><td colspan="5" class="empty-state">Loading...</td></tr></tbody></table></div>
         </div>
         <div class="card">
           <div class="card-header"><span class="card-title">Recent Cranes</span></div>
-          <div class="table-wrap"><table><thead><tr><th>Crane ID</th><th>Reg No</th><th>Model</th><th>Vendor</th><th>Capacity</th><th>Status</th></tr></thead><tbody id="dash-crane-list"><tr><td colspan="6" class="empty-state">Loading...</td></tr></tbody></table></div>
-        </div>
-        <div class="card">
-          <div class="card-header"><span class="card-title">Recent Vendors</span></div>
-          <div class="table-wrap"><table><thead><tr><th>Vendor ID</th><th>Company</th><th>Contact</th><th>Phone</th><th>City</th><th>Status</th></tr></thead><tbody id="dash-vendor-list"><tr><td colspan="6" class="empty-state">Loading...</td></tr></tbody></table></div>
+          <div class="table-wrap"><table><thead><tr><th>ID</th><th>Reg No</th><th>Model</th><th>Vendor</th><th>Capacity</th><th>Status</th></tr></thead><tbody id="dash-crane-list"><tr><td colspan="6" class="empty-state">Loading...</td></tr></tbody></table></div>
         </div>
       </div>
 
@@ -159,41 +174,44 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:#185FA5;box-sh
         <div id="vtab-list">
           <div class="card">
             <div class="card-header"><span class="card-title">Vendor List</span><span style="font-size:11px;color:#888" id="vendor-count">—</span></div>
-            <div class="table-wrap"><table><thead><tr><th>ID</th><th>Company Name</th><th>Contact</th><th>Phone</th><th>City</th><th>GST No</th><th>Type</th><th>Status</th><th>Actions</th></tr></thead><tbody id="vendor-tbody"><tr><td colspan="9" class="empty-state">Loading from Supabase...</td></tr></tbody></table></div>
+            <div class="table-wrap"><table><thead><tr><th>ID</th><th>Company Name</th><th>Contact</th><th>Phone</th><th>City</th><th>GST No</th><th>Type</th><th>Status</th><th>Actions</th></tr></thead><tbody id="vendor-tbody"><tr><td colspan="9" class="empty-state">Loading...</td></tr></tbody></table></div>
           </div>
         </div>
         <div id="vtab-search" style="display:none">
           <div class="card">
             <div class="card-header"><span class="card-title">Search Vendors</span></div>
             <div style="padding:12px 16px"><input id="vsearch" placeholder="Search by name, city, GST, phone..." oninput="filterVendors(this.value)"></div>
-            <div class="table-wrap"><table><thead><tr><th>ID</th><th>Company Name</th><th>Contact</th><th>Phone</th><th>City</th><th>Status</th></tr></thead><tbody id="vsearch-tbody"></tbody></table></div>
+            <div class="table-wrap"><table><thead><tr><th>ID</th><th>Company</th><th>Contact</th><th>Phone</th><th>City</th><th>Status</th></tr></thead><tbody id="vsearch-tbody"></tbody></table></div>
           </div>
         </div>
       </div>
 
-      <!-- CRANE -->
+      <!-- CRANE MASTER -->
       <div class="section" id="sec-vehicle">
         <div class="card">
           <div class="card-header"><span class="card-title">Crane / Vehicle Master</span><span style="font-size:11px;color:#888" id="crane-count">—</span></div>
-          <div class="table-wrap"><table><thead><tr><th>ID</th><th>Reg No</th><th>Model</th><th>Type</th><th>Capacity</th><th>Year</th><th>Vendor</th><th>Location</th><th>Insurance Exp</th><th>Status</th><th>Actions</th></tr></thead><tbody id="crane-tbody"><tr><td colspan="11" class="empty-state">Loading from Supabase...</td></tr></tbody></table></div>
+          <div class="table-wrap"><table>
+            <thead><tr><th>ID</th><th>Reg No</th><th>Model</th><th>Type</th><th>Cap.</th><th>Vendor</th><th>Location</th><th>MV Tax</th><th>Insurance</th><th>FC</th><th>PUC</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="crane-tbody"><tr><td colspan="13" class="empty-state">Loading...</td></tr></tbody>
+          </table></div>
         </div>
       </div>
 
       <!-- INVOICE -->
       <div class="section" id="sec-invoice">
         <div class="card" style="padding:48px;text-align:center">
-          <div style="font-size:40px;margin-bottom:12px">📄</div>
-          <div style="font-size:15px;font-weight:600;margin-bottom:6px">Invoice Module</div>
-          <div style="font-size:13px;color:#888;margin-bottom:16px">Vendor invoices, crane hire charges, and payment tracking.<br>Coming in the next version.</div>
+          <div style="font-size:36px;margin-bottom:12px">📄</div>
+          <div style="font-size:15px;font-weight:600;margin-bottom:6px">Invoice Module — Coming Soon</div>
+          <div style="font-size:13px;color:#888">Vendor invoices, crane hire charges, and payment tracking.</div>
         </div>
       </div>
 
       <!-- ACCOUNTING -->
       <div class="section" id="sec-accounting">
         <div class="card" style="padding:48px;text-align:center">
-          <div style="font-size:40px;margin-bottom:12px">📊</div>
-          <div style="font-size:15px;font-weight:600;margin-bottom:6px">Accounting Module</div>
-          <div style="font-size:13px;color:#888;margin-bottom:16px">Payment ledger, expenses, and balance tracking per vendor and crane.<br>Coming in the next version.</div>
+          <div style="font-size:36px;margin-bottom:12px">📊</div>
+          <div style="font-size:15px;font-weight:600;margin-bottom:6px">Accounting Module — Coming Soon</div>
+          <div style="font-size:13px;color:#888">Payment ledger, expenses, and balance tracking.</div>
         </div>
       </div>
 
@@ -204,10 +222,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:#185FA5;box-sh
 <!-- VENDOR MODAL -->
 <div class="modal-backdrop" id="vendor-modal">
   <div class="modal">
-    <div class="modal-header">
-      <span class="modal-title" id="vmodal-title">Add Vendor</span>
-      <button class="close-btn" onclick="closeModal('vendor-modal')">×</button>
-    </div>
+    <div class="modal-header"><span class="modal-title" id="vmodal-title">Add Vendor</span><button class="close-btn" onclick="closeModal('vendor-modal')">×</button></div>
     <div class="modal-body">
       <div class="form-row">
         <div class="form-group"><label class="form-label">Company Name *</label><input id="v-name" placeholder="e.g. Bethlehem Cranes Ltd"></div>
@@ -245,12 +260,10 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:#185FA5;box-sh
 
 <!-- CRANE MODAL -->
 <div class="modal-backdrop" id="crane-modal">
-  <div class="modal">
-    <div class="modal-header">
-      <span class="modal-title" id="cmodal-title">Add Crane</span>
-      <button class="close-btn" onclick="closeModal('crane-modal')">×</button>
-    </div>
+  <div class="modal modal-lg">
+    <div class="modal-header"><span class="modal-title" id="cmodal-title">Add Crane</span><button class="close-btn" onclick="closeModal('crane-modal')">×</button></div>
     <div class="modal-body">
+      <div class="sec-divider">Basic Information</div>
       <div class="form-row">
         <div class="form-group"><label class="form-label">Registration Number *</label><input id="c-reg" placeholder="TN 01 AB 1234"></div>
         <div class="form-group"><label class="form-label">Crane Model *</label><input id="c-model" placeholder="e.g. XCMG QY25K5"></div>
@@ -259,7 +272,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:#185FA5;box-sh
         <div class="form-group"><label class="form-label">Crane Type</label>
           <select id="c-type"><option>Mobile Crane</option><option>Tower Crane</option><option>Crawler Crane</option><option>Rough Terrain Crane</option><option>Pick and Carry Crane</option><option>Overhead Crane</option></select>
         </div>
-        <div class="form-group"><label class="form-label">Capacity (Tonnes)</label><input id="c-capacity" type="number" placeholder="e.g. 25"></div>
+        <div class="form-group"><label class="form-label">Lifting Capacity (Tonnes)</label><input id="c-capacity" type="number" placeholder="e.g. 25"></div>
       </div>
       <div class="form-row">
         <div class="form-group"><label class="form-label">Manufacturer</label><input id="c-make" placeholder="XCMG, Liebherr, Tadano..."></div>
@@ -272,21 +285,69 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:#185FA5;box-sh
         <div class="form-group"><label class="form-label">Current Location / Site</label><input id="c-location" placeholder="Site name or city"></div>
       </div>
       <div class="form-row">
-        <div class="form-group"><label class="form-label">Insurance Expiry</label><input id="c-insurance" type="date"></div>
-        <div class="form-group"><label class="form-label">Fitness Certificate Expiry</label><input id="c-fitness" type="date"></div>
-      </div>
-      <div class="form-row">
         <div class="form-group"><label class="form-label">Boom Length (m)</label><input id="c-boom" type="number" placeholder="e.g. 42"></div>
         <div class="form-group"><label class="form-label">Status</label>
           <select id="c-status"><option>Active</option><option>Maintenance</option><option>Idle</option><option>Retired</option></select>
         </div>
       </div>
-      <div class="form-group"><label class="form-label">Remarks</label><input id="c-remarks" placeholder="Notes"></div>
+
+      <div class="sec-divider">Compliance &amp; Expiry Dates</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">MV Tax Expiry</label>
+          <input id="c-mvtax" type="date" onchange="showExpiryHint('c-mvtax','hint-mvtax')">
+          <div class="expiry-hint" id="hint-mvtax"></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Insurance Expiry</label>
+          <input id="c-insurance" type="date" onchange="showExpiryHint('c-insurance','hint-insurance')">
+          <div class="expiry-hint" id="hint-insurance"></div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Fitness Certificate (FC) Expiry</label>
+          <input id="c-fc" type="date" onchange="showExpiryHint('c-fc','hint-fc')">
+          <div class="expiry-hint" id="hint-fc"></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Pollution Certificate (PUC) Expiry</label>
+          <input id="c-puc" type="date" onchange="showExpiryHint('c-puc','hint-puc')">
+          <div class="expiry-hint" id="hint-puc"></div>
+        </div>
+      </div>
+
+      <div class="sec-divider">Remarks</div>
+      <div class="form-group"><input id="c-remarks" placeholder="Any notes about this crane"></div>
     </div>
     <div class="modal-footer">
       <button class="btn" onclick="closeModal('crane-modal')">Cancel</button>
       <button class="btn btn-primary" id="csave-btn" onclick="saveCrane()">Save Crane</button>
     </div>
+  </div>
+</div>
+
+<!-- DOCUMENTS MODAL -->
+<div class="modal-backdrop" id="docs-modal">
+  <div class="modal modal-lg">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title" id="docs-modal-title">Documents</div>
+        <div style="font-size:11px;color:#888;margin-top:2px" id="docs-modal-sub"></div>
+      </div>
+      <button class="close-btn" onclick="closeModal('docs-modal')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="sec-divider">Upload Documents</div>
+      <div class="doc-upload-grid" id="doc-upload-grid"></div>
+      <div style="margin-top:12px;display:flex;align-items:center;gap:12px">
+        <button class="btn btn-success" id="upload-btn" onclick="uploadAllDocs()">⬆ Upload Selected Files</button>
+        <span style="font-size:12px;color:#888" id="upload-status"></span>
+      </div>
+      <div class="sec-divider" style="margin-top:20px">Uploaded Documents</div>
+      <div id="docs-list-wrap"><div class="empty-state">Loading...</div></div>
+    </div>
+    <div class="modal-footer"><button class="btn" onclick="closeModal('docs-modal')">Close</button></div>
   </div>
 </div>
 
@@ -296,43 +357,83 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:#185FA5;box-sh
 const SB_URL='https://jxofvlnucmocbgbmeend.supabase.co';
 const SB_KEY='sb_publishable_Y2e1nOE-xrmg4SO0XwSZbA_8JCft-6X';
 const H={'Content-Type':'application/json','apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY};
-let vendors=[],cranes=[],editVendorId=null,editCraneId=null,currentPage='dashboard';
 
-async function sbGet(t){const r=await fetch(`${SB_URL}/rest/v1/${t}?order=created_at.desc`,{headers:H});if(!r.ok)throw new Error(await r.text());return r.json()}
+const DOC_TYPES=[
+  {key:'rc_book',label:'RC Book',icon:'📋'},
+  {key:'insurance_cert',label:'Insurance Certificate',icon:'🛡️'},
+  {key:'fitness_cert',label:'Fitness Certificate',icon:'✅'},
+  {key:'third_party_test',label:'Third Party Test Report',icon:'🔬'},
+  {key:'load_chart',label:'Load Chart',icon:'📊'},
+  {key:'mv_tax_receipt',label:'MV Tax Receipt',icon:'🧾'},
+  {key:'operator_license',label:'Operator License',icon:'👷'}
+];
+
+let vendors=[],cranes=[],editVendorId=null,editCraneId=null,currentPage='dashboard',currentDocsCraneId=null,pendingFiles={};
+
+async function sbGet(t,q=''){const r=await fetch(`${SB_URL}/rest/v1/${t}?order=created_at.desc${q}`,{headers:H});if(!r.ok)throw new Error(await r.text());return r.json()}
 async function sbInsert(t,d){const r=await fetch(`${SB_URL}/rest/v1/${t}`,{method:'POST',headers:{...H,'Prefer':'return=representation'},body:JSON.stringify(d)});if(!r.ok)throw new Error(await r.text());return r.json()}
 async function sbUpdate(t,id,d){const r=await fetch(`${SB_URL}/rest/v1/${t}?id=eq.${id}`,{method:'PATCH',headers:{...H,'Prefer':'return=representation'},body:JSON.stringify(d)});if(!r.ok)throw new Error(await r.text());return r.json()}
 async function sbDelete(t,id){const r=await fetch(`${SB_URL}/rest/v1/${t}?id=eq.${id}`,{method:'DELETE',headers:H});if(!r.ok)throw new Error(await r.text())}
+async function storageUpload(path,file){const r=await fetch(`${SB_URL}/storage/v1/object/crane-docs/${path}`,{method:'POST',headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':file.type,'x-upsert':'true'},body:file});if(!r.ok)throw new Error(await r.text());return r.json()}
+async function storageDelete(path){const r=await fetch(`${SB_URL}/storage/v1/object/crane-docs`,{method:'DELETE',headers:{...H},body:JSON.stringify({prefixes:[path]})});if(!r.ok)throw new Error(await r.text())}
+function storageUrl(path){return`${SB_URL}/storage/v1/object/public/crane-docs/${path}`}
 
 function uid(){return 'V-'+Date.now().toString(36).toUpperCase()}
 function cuid(){return 'C-'+Date.now().toString(36).toUpperCase()}
+function duid(){return 'D-'+Date.now().toString(36).toUpperCase()}
+function fmtSize(b){return b<1024?b+'B':b<1048576?(b/1024).toFixed(1)+'KB':(b/1048576).toFixed(1)+'MB'}
 
 function toast(msg,err=false){
-  const t=document.getElementById('toast');
-  t.textContent=msg;t.style.background=err?'#c5221f':'#1a1a1a';
-  t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);
+  const t=document.getElementById('toast');t.textContent=msg;
+  t.style.background=err?'#c5221f':'#1a1a1a';t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3200);
+}
+
+function daysUntil(d){if(!d)return null;return Math.ceil((new Date(d)-new Date())/(864e5))}
+
+function expiryLabel(days){
+  if(days===null)return'';
+  if(days<0)return`⛔ Expired ${Math.abs(days)} days ago`;
+  if(days===0)return'⚠ Expires today!';
+  if(days<=30)return`⚠ Expires in ${days} days`;
+  return`✓ Valid — ${days} days left`;
+}
+
+function showExpiryHint(inputId,hintId){
+  const v=document.getElementById(inputId).value;
+  const el=document.getElementById(hintId);
+  if(!v){el.textContent='';return}
+  const days=daysUntil(v);
+  el.textContent=expiryLabel(days);
+  el.style.color=days<0?'#c5221f':days<=30?'#856404':'#1e7e34';
+  el.style.fontWeight='500';
+}
+
+function expiryCell(dateStr){
+  const days=daysUntil(dateStr);
+  if(days===null)return'<span style="color:#ccc">—</span>';
+  const cls=days<0?'exp-bad':days<=30?'exp-warn':'exp-ok';
+  const lbl=days<0?`Exp ${Math.abs(days)}d ago`:days===0?'Today!':days<=30?`${days}d left`:`${days}d`;
+  return`<span class="${cls}" style="font-size:11px">${dateStr}<br><small style="font-weight:400">${lbl}</small></span>`;
 }
 
 async function loadAll(){
   try{
     [vendors,cranes]=await Promise.all([sbGet('vendors'),sbGet('cranes')]);
-    const b=document.getElementById('conn-badge');
-    b.textContent='Connected to Supabase';b.className='conn-badge';
+    const b=document.getElementById('conn-badge');b.textContent='Connected to Supabase';b.className='conn-badge';
     renderDashboard();
     if(currentPage==='vendor')renderVendors();
     if(currentPage==='vehicle')renderCranes();
   }catch(e){
-    const b=document.getElementById('conn-badge');
-    b.textContent='Connection error';b.className='conn-badge error';
+    const b=document.getElementById('conn-badge');b.textContent='Connection error';b.className='conn-badge error';
     toast('Supabase error: '+e.message,true);
   }
 }
 
 function navigate(page,el){
   currentPage=page;
-  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-  el.classList.add('active');
-  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-  document.getElementById('sec-'+page).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));el.classList.add('active');
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.getElementById('sec-'+page).classList.add('active');
   const titles={dashboard:'Dashboard',vendor:'Vendor Master',vehicle:'Crane / Vehicle Master',invoice:'Invoice Management',accounting:'Accounting'};
   document.getElementById('page-title').textContent=titles[page]||page;
   document.getElementById('add-btn').style.display=['vendor','vehicle'].includes(page)?'inline-flex':'none';
@@ -347,43 +448,43 @@ function openModal(){
 }
 function closeModal(id){document.getElementById(id).classList.remove('open')}
 function clearVF(){['v-name','v-contact','v-phone','v-email','v-city','v-state','v-gst','v-pan','v-address','v-remarks'].forEach(i=>document.getElementById(i).value='')}
-function clearCF(){['c-reg','c-model','c-capacity','c-make','c-year','c-location','c-insurance','c-fitness','c-boom','c-remarks'].forEach(i=>document.getElementById(i).value='')}
+function clearCF(){['c-reg','c-model','c-capacity','c-make','c-year','c-location','c-boom','c-remarks','c-mvtax','c-insurance','c-fc','c-puc'].forEach(i=>document.getElementById(i).value='');['hint-mvtax','hint-insurance','hint-fc','hint-puc'].forEach(i=>document.getElementById(i).textContent='')}
 
-function sb(s){const m={Active:'badge-active',Maintenance:'badge-maintenance',Idle:'badge-idle',Inactive:'badge-inactive',Retired:'badge-retired'};return`<span class="badge ${m[s]||'badge-inactive'}">${s}</span>`}
+function sbadge(s){const m={Active:'badge-active',Maintenance:'badge-maintenance',Idle:'badge-idle',Inactive:'badge-inactive',Retired:'badge-retired'};return`<span class="badge ${m[s]||'badge-inactive'}">${s}</span>`}
 
 function renderDashboard(){
   document.getElementById('stat-vendors').textContent=vendors.length;
   document.getElementById('stat-cranes').textContent=cranes.length;
   document.getElementById('stat-active').textContent=cranes.filter(c=>c.status==='Active').length;
-  document.getElementById('stat-maint').textContent=cranes.filter(c=>c.status==='Maintenance').length;
+  const fields=[{k:'mv_tax_expiry',l:'MV Tax'},{k:'insurance_expiry',l:'Insurance'},{k:'fc_expiry',l:'FC'},{k:'puc_expiry',l:'PUC'}];
+  const alerts=[];
+  cranes.forEach(c=>fields.forEach(f=>{const d=daysUntil(c[f.k]);if(d!==null&&d<=30)alerts.push({c,label:f.l,date:c[f.k],days:d})}));
+  alerts.sort((a,b)=>a.days-b.days);
+  document.getElementById('stat-expiring').textContent=alerts.length;
+  const ab=document.getElementById('dash-alerts');
+  ab.innerHTML=alerts.length?alerts.map(a=>`<tr><td style="font-weight:500">${a.c.model}</td><td>${a.c.reg}</td><td>${a.label}</td><td>${a.date}</td><td class="${a.days<0?'exp-bad':'exp-warn'}">${expiryLabel(a.days)}</td></tr>`).join(''):'<tr><td colspan="5" class="empty-state" style="color:#1e7e34">✓ All documents are valid — no alerts</td></tr>';
   const cb=document.getElementById('dash-crane-list');
-  cb.innerHTML=cranes.length?cranes.slice(0,6).map(c=>`<tr><td style="font-size:11px;font-family:monospace">${c.id}</td><td>${c.reg}</td><td>${c.model}</td><td>${c.vendor_name||'-'}</td><td>${c.capacity?c.capacity+' T':'-'}</td><td>${sb(c.status)}</td></tr>`).join(''):'<tr><td colspan="6" class="empty-state">No cranes added yet.</td></tr>';
-  const vb=document.getElementById('dash-vendor-list');
-  vb.innerHTML=vendors.length?vendors.slice(0,5).map(v=>`<tr><td style="font-size:11px;font-family:monospace">${v.id}</td><td>${v.name}</td><td>${v.contact}</td><td>${v.phone}</td><td>${v.city||'-'}</td><td>${sb(v.status)}</td></tr>`).join(''):'<tr><td colspan="6" class="empty-state">No vendors added yet.</td></tr>';
+  cb.innerHTML=cranes.length?cranes.slice(0,6).map(c=>`<tr><td style="font-size:11px;font-family:monospace">${c.id}</td><td style="font-weight:500">${c.reg}</td><td>${c.model}</td><td>${c.vendor_name||'-'}</td><td>${c.capacity?c.capacity+' T':'-'}</td><td>${sbadge(c.status)}</td></tr>`).join(''):'<tr><td colspan="6" class="empty-state">No cranes yet.</td></tr>';
 }
 
 function renderVendors(){
   document.getElementById('vendor-count').textContent=vendors.length+' records';
-  const tb=document.getElementById('vendor-tbody');
-  tb.innerHTML=vendors.length?vendors.map(v=>`<tr>
-    <td style="font-size:11px;font-family:monospace">${v.id}</td>
-    <td><b style="font-weight:600">${v.name}</b></td>
+  document.getElementById('vendor-tbody').innerHTML=vendors.length?vendors.map(v=>`<tr>
+    <td style="font-size:11px;font-family:monospace">${v.id}</td><td style="font-weight:600">${v.name}</td>
     <td>${v.contact}</td><td>${v.phone}</td><td>${v.city||'-'}</td>
     <td style="font-size:11px">${v.gst||'-'}</td><td style="font-size:11px">${v.type||'-'}</td>
-    <td>${sb(v.status)}</td>
+    <td>${sbadge(v.status)}</td>
     <td style="white-space:nowrap"><button class="action-btn" onclick="editVendor('${v.id}')">Edit</button> <button class="action-btn del" onclick="deleteVendor('${v.id}')">Del</button></td>
-  </tr>`).join(''):'<tr><td colspan="9" class="empty-state">No vendors yet. Click "+ Add New".</td></tr>';
+  </tr>`).join(''):'<tr><td colspan="9" class="empty-state">No vendors yet.</td></tr>';
 }
 
 function filterVendors(q){
-  const s=q.toLowerCase();
-  const res=vendors.filter(v=>(v.name+v.city+v.gst+v.contact+v.phone).toLowerCase().includes(s));
-  document.getElementById('vsearch-tbody').innerHTML=res.length?res.map(v=>`<tr><td style="font-size:11px;font-family:monospace">${v.id}</td><td>${v.name}</td><td>${v.contact}</td><td>${v.phone}</td><td>${v.city||'-'}</td><td>${sb(v.status)}</td></tr>`).join(''):'<tr><td colspan="6" class="empty-state">No results.</td></tr>';
+  const s=q.toLowerCase(),res=vendors.filter(v=>(v.name+v.city+v.gst+v.contact+v.phone).toLowerCase().includes(s));
+  document.getElementById('vsearch-tbody').innerHTML=res.length?res.map(v=>`<tr><td style="font-size:11px;font-family:monospace">${v.id}</td><td>${v.name}</td><td>${v.contact}</td><td>${v.phone}</td><td>${v.city||'-'}</td><td>${sbadge(v.status)}</td></tr>`).join(''):'<tr><td colspan="6" class="empty-state">No results.</td></tr>';
 }
 
 function editVendor(id){
-  const v=vendors.find(x=>x.id===id);if(!v)return;
-  editVendorId=id;
+  const v=vendors.find(x=>x.id===id);if(!v)return;editVendorId=id;
   document.getElementById('v-name').value=v.name||'';document.getElementById('v-contact').value=v.contact||'';
   document.getElementById('v-phone').value=v.phone||'';document.getElementById('v-email').value=v.email||'';
   document.getElementById('v-city').value=v.city||'';document.getElementById('v-state').value=v.state_||'';
@@ -394,83 +495,145 @@ function editVendor(id){
 }
 
 async function saveVendor(){
-  const name=document.getElementById('v-name').value.trim();
-  const contact=document.getElementById('v-contact').value.trim();
-  const phone=document.getElementById('v-phone').value.trim();
+  const name=document.getElementById('v-name').value.trim(),contact=document.getElementById('v-contact').value.trim(),phone=document.getElementById('v-phone').value.trim();
   if(!name||!contact||!phone){toast('Name, Contact and Phone are required.',true);return}
   const data={name,contact,phone,email:document.getElementById('v-email').value,city:document.getElementById('v-city').value,state_:document.getElementById('v-state').value,gst:document.getElementById('v-gst').value,pan:document.getElementById('v-pan').value,type:document.getElementById('v-type').value,status:document.getElementById('v-status').value,address:document.getElementById('v-address').value,remarks:document.getElementById('v-remarks').value};
   const btn=document.getElementById('vsave-btn');btn.textContent='Saving...';btn.disabled=true;
-  try{
-    if(editVendorId){await sbUpdate('vendors',editVendorId,data);toast('Vendor updated.')}
-    else{data.id=uid();await sbInsert('vendors',data);toast('Vendor saved to cloud.')}
-    closeModal('vendor-modal');await loadAll();
-  }catch(e){toast('Error: '+e.message,true)}
+  try{if(editVendorId){await sbUpdate('vendors',editVendorId,data);toast('Vendor updated.')}else{data.id=uid();await sbInsert('vendors',data);toast('Vendor saved.')}closeModal('vendor-modal');await loadAll()}catch(e){toast('Error: '+e.message,true)}
   btn.textContent='Save Vendor';btn.disabled=false;
 }
 
-async function deleteVendor(id){
-  if(!confirm('Delete this vendor?'))return;
-  try{await sbDelete('vendors',id);toast('Vendor deleted.');await loadAll()}catch(e){toast('Error: '+e.message,true)}
-}
+async function deleteVendor(id){if(!confirm('Delete this vendor?'))return;try{await sbDelete('vendors',id);toast('Deleted.');await loadAll()}catch(e){toast('Error: '+e.message,true)}}
 
 function renderCranes(){
   document.getElementById('crane-count').textContent=cranes.length+' records';
-  const tb=document.getElementById('crane-tbody');
-  const today=new Date();
-  tb.innerHTML=cranes.length?cranes.map(c=>{
-    const insExp=c.insurance?new Date(c.insurance)<today:'';
-    return`<tr>
-      <td style="font-size:11px;font-family:monospace">${c.id}</td>
-      <td style="font-weight:600">${c.reg}</td>
-      <td>${c.model}</td><td style="font-size:11px">${c.type||'-'}</td>
-      <td>${c.capacity?c.capacity+' T':'-'}</td><td>${c.year||'-'}</td>
-      <td>${c.vendor_name||'-'}</td><td>${c.location||'-'}</td>
-      <td class="${insExp?'expired':''}">${c.insurance||'-'}${insExp?' ⚠':''}</td>
-      <td>${sb(c.status)}</td>
-      <td style="white-space:nowrap"><button class="action-btn" onclick="editCrane('${c.id}')">Edit</button> <button class="action-btn del" onclick="deleteCrane('${c.id}')">Del</button></td>
-    </tr>`}).join(''):'<tr><td colspan="11" class="empty-state">No cranes yet. Click "+ Add New".</td></tr>';
+  document.getElementById('crane-tbody').innerHTML=cranes.length?cranes.map(c=>`<tr>
+    <td style="font-size:11px;font-family:monospace">${c.id}</td>
+    <td style="font-weight:600">${c.reg}</td><td>${c.model}</td>
+    <td style="font-size:11px">${c.type||'-'}</td>
+    <td>${c.capacity?c.capacity+' T':'-'}</td>
+    <td>${c.vendor_name||'-'}</td><td>${c.location||'-'}</td>
+    <td>${expiryCell(c.mv_tax_expiry)}</td>
+    <td>${expiryCell(c.insurance_expiry)}</td>
+    <td>${expiryCell(c.fc_expiry)}</td>
+    <td>${expiryCell(c.puc_expiry)}</td>
+    <td>${sbadge(c.status)}</td>
+    <td style="white-space:nowrap;display:flex;gap:4px;padding:8px 14px">
+      <button class="action-btn" onclick="editCrane('${c.id}')">Edit</button>
+      <button class="action-btn docs" onclick="openDocs('${c.id}')">📁 Docs</button>
+      <button class="action-btn del" onclick="deleteCrane('${c.id}')">Del</button>
+    </td>
+  </tr>`).join(''):'<tr><td colspan="13" class="empty-state">No cranes yet. Click "+ Add New".</td></tr>';
 }
 
-function populateCVendors(){
-  document.getElementById('c-vendor').innerHTML='<option value="">-- Select Vendor --</option>'+vendors.map(v=>`<option value="${v.id}">${v.name}</option>`).join('');
-}
+function populateCVendors(){document.getElementById('c-vendor').innerHTML='<option value="">-- Select Vendor --</option>'+vendors.map(v=>`<option value="${v.id}">${v.name}</option>`).join('')}
 
 function editCrane(id){
-  const c=cranes.find(x=>x.id===id);if(!c)return;
-  editCraneId=id;populateCVendors();
-  ['reg','model','capacity','make','year','location','insurance','fitness','boom','remarks'].forEach(f=>{const el=document.getElementById('c-'+f);if(el)el.value=c[f]||''});
-  document.getElementById('c-type').value=c.type||'Mobile Crane';
-  document.getElementById('c-status').value=c.status||'Active';
-  document.getElementById('c-vendor').value=c.vendor_id||'';
+  const c=cranes.find(x=>x.id===id);if(!c)return;editCraneId=id;populateCVendors();
+  ['reg','model','capacity','make','year','location','boom','remarks'].forEach(f=>{const el=document.getElementById('c-'+f);if(el)el.value=c[f]||''});
+  document.getElementById('c-type').value=c.type||'Mobile Crane';document.getElementById('c-status').value=c.status||'Active';document.getElementById('c-vendor').value=c.vendor_id||'';
+  document.getElementById('c-mvtax').value=c.mv_tax_expiry||'';document.getElementById('c-insurance').value=c.insurance_expiry||'';document.getElementById('c-fc').value=c.fc_expiry||'';document.getElementById('c-puc').value=c.puc_expiry||'';
+  ['mvtax','insurance','fc','puc'].forEach(f=>showExpiryHint('c-'+f,'hint-'+f));
   document.getElementById('cmodal-title').textContent='Edit Crane';document.getElementById('crane-modal').classList.add('open');
 }
 
 async function saveCrane(){
-  const reg=document.getElementById('c-reg').value.trim();
-  const model=document.getElementById('c-model').value.trim();
+  const reg=document.getElementById('c-reg').value.trim(),model=document.getElementById('c-model').value.trim();
   if(!reg||!model){toast('Reg number and model are required.',true);return}
-  const vid=document.getElementById('c-vendor').value;
-  const vobj=vendors.find(v=>v.id===vid);
-  const data={reg,model,type:document.getElementById('c-type').value,capacity:document.getElementById('c-capacity').value,make:document.getElementById('c-make').value,year:document.getElementById('c-year').value,vendor_id:vid||null,vendor_name:vobj?vobj.name:null,location:document.getElementById('c-location').value,insurance:document.getElementById('c-insurance').value||null,fitness:document.getElementById('c-fitness').value||null,boom:document.getElementById('c-boom').value,status:document.getElementById('c-status').value,remarks:document.getElementById('c-remarks').value};
+  const vid=document.getElementById('c-vendor').value,vobj=vendors.find(v=>v.id===vid);
+  const data={reg,model,type:document.getElementById('c-type').value,capacity:document.getElementById('c-capacity').value,make:document.getElementById('c-make').value,year:document.getElementById('c-year').value,vendor_id:vid||null,vendor_name:vobj?vobj.name:null,location:document.getElementById('c-location').value,boom:document.getElementById('c-boom').value,status:document.getElementById('c-status').value,remarks:document.getElementById('c-remarks').value,mv_tax_expiry:document.getElementById('c-mvtax').value||null,insurance_expiry:document.getElementById('c-insurance').value||null,fc_expiry:document.getElementById('c-fc').value||null,puc_expiry:document.getElementById('c-puc').value||null};
   const btn=document.getElementById('csave-btn');btn.textContent='Saving...';btn.disabled=true;
-  try{
-    if(editCraneId){await sbUpdate('cranes',editCraneId,data);toast('Crane updated.')}
-    else{data.id=cuid();await sbInsert('cranes',data);toast('Crane saved to cloud.')}
-    closeModal('crane-modal');await loadAll();
-  }catch(e){toast('Error: '+e.message,true)}
+  try{if(editCraneId){await sbUpdate('cranes',editCraneId,data);toast('Crane updated.')}else{data.id=cuid();await sbInsert('cranes',data);toast('Crane saved to cloud.')}closeModal('crane-modal');await loadAll()}catch(e){toast('Error: '+e.message,true)}
   btn.textContent='Save Crane';btn.disabled=false;
 }
 
-async function deleteCrane(id){
-  if(!confirm('Delete this crane?'))return;
-  try{await sbDelete('cranes',id);toast('Crane deleted.');await loadAll()}catch(e){toast('Error: '+e.message,true)}
+async function deleteCrane(id){if(!confirm('Delete this crane?'))return;try{await sbDelete('cranes',id);toast('Deleted.');await loadAll()}catch(e){toast('Error: '+e.message,true)}}
+
+// ===== DOCUMENTS =====
+function openDocs(craneId){
+  currentDocsCraneId=craneId;pendingFiles={};
+  const crane=cranes.find(c=>c.id===craneId);
+  document.getElementById('docs-modal-title').textContent='Documents — '+(crane?crane.reg:'');
+  document.getElementById('docs-modal-sub').textContent=crane?crane.model+' · '+crane.id:'';
+  renderUploadSlots();loadDocs(craneId);
+  document.getElementById('upload-status').textContent='';
+  document.getElementById('docs-modal').classList.add('open');
+}
+
+function renderUploadSlots(){
+  document.getElementById('doc-upload-grid').innerHTML=DOC_TYPES.map(dt=>`
+    <div class="doc-slot" id="slot-${dt.key}">
+      <div class="doc-slot-title">${dt.icon} ${dt.label}</div>
+      <input type="file" accept=".pdf,.jpg,.jpeg,.png" onchange="selectFile('${dt.key}',this)">
+      <div class="doc-slot-status" id="sstat-${dt.key}">No file selected</div>
+    </div>`).join('');
+}
+
+function selectFile(key,input){
+  if(!input.files[0])return;
+  pendingFiles[key]=input.files[0];
+  const s=document.getElementById('sstat-'+key);s.textContent='Ready: '+input.files[0].name;s.className='doc-slot-status ok';
+  document.getElementById('slot-'+key).classList.add('selected');
+}
+
+async function uploadAllDocs(){
+  const keys=Object.keys(pendingFiles);
+  if(!keys.length){toast('Please select at least one file.',true);return}
+  const btn=document.getElementById('upload-btn');btn.textContent='Uploading...';btn.disabled=true;
+  const st=document.getElementById('upload-status');let done=0;
+  for(const key of keys){
+    const file=pendingFiles[key];const ext=file.name.split('.').pop();
+    const path=`${currentDocsCraneId}/${key}_${Date.now()}.${ext}`;
+    st.textContent=`Uploading ${done+1}/${keys.length}...`;
+    try{
+      await storageUpload(path,file);
+      const dt=DOC_TYPES.find(d=>d.key===key);
+      await sbInsert('crane_documents',{id:duid(),crane_id:currentDocsCraneId,doc_type:key,file_name:file.name,file_path:path,file_size:fmtSize(file.size)});
+      document.getElementById('sstat-'+key).textContent='✓ Uploaded successfully';done++;
+    }catch(e){
+      document.getElementById('sstat-'+key).textContent='✗ Error: '+e.message;
+      document.getElementById('sstat-'+key).style.color='#c5221f';
+      toast('Upload failed: '+e.message,true);
+    }
+  }
+  pendingFiles={};btn.textContent='⬆ Upload Selected Files';btn.disabled=false;
+  st.textContent=done+' file(s) uploaded.';toast(done+' document(s) uploaded to cloud.');
+  await loadDocs(currentDocsCraneId);
+}
+
+async function loadDocs(craneId){
+  const wrap=document.getElementById('docs-list-wrap');wrap.innerHTML='<div class="empty-state">Loading...</div>';
+  try{
+    const docs=await sbGet('crane_documents',`&crane_id=eq.${craneId}`);
+    if(!docs.length){wrap.innerHTML='<div class="empty-state">No documents uploaded yet. Use the upload section above.</div>';return}
+    wrap.innerHTML='<div class="docs-list">'+docs.map(d=>{
+      const dt=DOC_TYPES.find(x=>x.key===d.doc_type)||{icon:'📄',label:d.doc_type};
+      const url=storageUrl(d.file_path);
+      const date=new Date(d.uploaded_at).toLocaleDateString('en-IN');
+      return`<div class="doc-item">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div class="doc-icon-box">${dt.icon}</div>
+          <div><div class="doc-name">${dt.label}</div><div class="doc-meta">${d.file_name} · ${d.file_size||''} · ${date}</div></div>
+        </div>
+        <div style="display:flex;gap:6px">
+          <a href="${url}" target="_blank" class="action-btn">👁 View</a>
+          <a href="${url}" download="${d.file_name}" class="action-btn">⬇ Download</a>
+          <button class="action-btn del" onclick="deleteDoc('${d.id}','${d.file_path}')">Del</button>
+        </div>
+      </div>`;
+    }).join('')+'</div>';
+  }catch(e){wrap.innerHTML='<div class="empty-state">Error: '+e.message+'</div>'}
+}
+
+async function deleteDoc(docId,filePath){
+  if(!confirm('Delete this document?'))return;
+  try{await Promise.all([sbDelete('crane_documents',docId),storageDelete(filePath)]);toast('Document deleted.');await loadDocs(currentDocsCraneId)}catch(e){toast('Error: '+e.message,true)}
 }
 
 function switchTab(showId,el){
   document.querySelectorAll('#sec-vendor > div[id^="vtab"]').forEach(t=>t.style.display='none');
   document.getElementById(showId).style.display='block';
-  el.closest('.tab-bar').querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  el.classList.add('active');
+  el.closest('.tab-bar').querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');
 }
 
 loadAll();
