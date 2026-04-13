@@ -583,6 +583,7 @@ function navigate(page,el){
   if(page==='dashboard')renderDashboard();
   if(page==='vendor')renderVendors();
   if(page==='vehicle')renderCranes();
+  if(page==='accounting'){loadAccounting().then(()=>{renderAccOverview();populateSiteDropdowns();})}
 }
 
 function openModal(){
@@ -921,12 +922,7 @@ function openAccModal(id){
   if(id==='site-modal'){editSiteId=null;populateSiteCraneDropdown();['s-name','s-location'].forEach(i=>document.getElementById(i).value='');document.getElementById('s-crane').value='';document.getElementById('s-status').value='Active';document.getElementById('site-modal-title').textContent='Add Site';document.getElementById('site-modal').classList.add('open')}
 }
 
-// Navigate to accounting loads data
-const _navOrig=navigate;
-function navigate(page,el){
-  _navOrig(page,el);
-  if(page==='accounting'){loadAccounting().then(()=>{renderAccOverview();populateSiteDropdowns()})}
-}
+// accounting nav handled inside navigate function
 
 </script>
 </body>
