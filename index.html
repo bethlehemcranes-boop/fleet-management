@@ -208,10 +208,78 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:#185FA5;box-sh
 
       <!-- ACCOUNTING -->
       <div class="section" id="sec-accounting">
-        <div class="card" style="padding:48px;text-align:center">
-          <div style="font-size:36px;margin-bottom:12px">📊</div>
-          <div style="font-size:15px;font-weight:600;margin-bottom:6px">Accounting Module — Coming Soon</div>
-          <div style="font-size:13px;color:#888">Payment ledger, expenses, and balance tracking.</div>
+        <div class="tab-bar">
+          <div class="tab active" onclick="accTab('acc-overview',this)">Overview</div>
+          <div class="tab" onclick="accTab('acc-ledger',this)">Ledger</div>
+          <div class="tab" onclick="accTab('acc-expenses',this)">Expenses</div>
+          <div class="tab" onclick="accTab('acc-sites',this)">Sites</div>
+        </div>
+
+        <!-- OVERVIEW -->
+        <div id="acc-overview">
+          <div class="stats-row" style="grid-template-columns:repeat(4,1fr)">
+            <div class="stat-card"><div class="stat-label">Total Transferred</div><div class="stat-value" id="acc-total-in" style="color:#1e7e34">₹0</div><div class="stat-sub">via GPay to supervisor</div></div>
+            <div class="stat-card"><div class="stat-label">Total Expenses</div><div class="stat-value" id="acc-total-exp" style="color:#c5221f">₹0</div><div class="stat-sub">spent by supervisor</div></div>
+            <div class="stat-card"><div class="stat-label">Balance with Supervisor</div><div class="stat-value" id="acc-balance">₹0</div><div class="stat-sub">remaining funds</div></div>
+            <div class="stat-card"><div class="stat-label">Pending Approval</div><div class="stat-value" id="acc-pending" style="color:#856404">0</div><div class="stat-sub">expenses to review</div></div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+            <div class="card">
+              <div class="card-header"><span class="card-title">Expenses by Category</span></div>
+              <div id="cat-breakdown" style="padding:12px"></div>
+            </div>
+            <div class="card">
+              <div class="card-header"><span class="card-title">Expenses by Site</span></div>
+              <div id="site-breakdown" style="padding:12px"></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><span class="card-title">Recent Transactions</span></div>
+            <div class="table-wrap"><table><thead><tr><th>Date</th><th>Type</th><th>Description</th><th>Site</th><th>Amount</th><th>Status</th></tr></thead><tbody id="acc-recent"></tbody></table></div>
+          </div>
+        </div>
+
+        <!-- LEDGER -->
+        <div id="acc-ledger" style="display:none">
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">GPay Fund Transfers</span>
+              <button class="btn btn-primary" onclick="openAccModal('fund-modal')">+ Add Transfer</button>
+            </div>
+            <div class="table-wrap"><table><thead><tr><th>Date</th><th>Amount</th><th>Reference No</th><th>Note</th><th>Actions</th></tr></thead><tbody id="fund-tbody"><tr><td colspan="5" class="empty-state">No transfers yet.</td></tr></tbody></table></div>
+          </div>
+        </div>
+
+        <!-- EXPENSES -->
+        <div id="acc-expenses" style="display:none">
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">All Expenses</span>
+              <div style="display:flex;gap:8px;align-items:center">
+                <select id="exp-filter-site" onchange="renderExpenses()" style="width:160px;padding:6px 8px;font-size:12px">
+                  <option value="">All Sites</option>
+                </select>
+                <select id="exp-filter-cat" onchange="renderExpenses()" style="width:150px;padding:6px 8px;font-size:12px">
+                  <option value="">All Categories</option>
+                  <option>Fuel</option><option>Labour / Daily wages</option><option>Crane repairs / spare parts</option>
+                  <option>Toll / transport</option><option>Food / accommodation</option><option>Crane hire charges</option><option>Miscellaneous</option>
+                </select>
+                <button class="btn btn-primary" onclick="openAccModal('expense-modal')">+ Add Expense</button>
+              </div>
+            </div>
+            <div class="table-wrap"><table><thead><tr><th>Date</th><th>Site</th><th>Category</th><th>Description</th><th>Amount</th><th>Status</th><th>Actions</th></tr></thead><tbody id="exp-tbody"><tr><td colspan="7" class="empty-state">No expenses yet.</td></tr></tbody></table></div>
+          </div>
+        </div>
+
+        <!-- SITES -->
+        <div id="acc-sites" style="display:none">
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">Sites / Cost Centers</span>
+              <button class="btn btn-primary" onclick="openAccModal('site-modal')">+ Add Site</button>
+            </div>
+            <div class="table-wrap"><table><thead><tr><th>ID</th><th>Site Name</th><th>Location</th><th>Linked Crane</th><th>Status</th><th>Total Expenses</th><th>Actions</th></tr></thead><tbody id="site-tbody"><tr><td colspan="7" class="empty-state">No sites yet.</td></tr></tbody></table></div>
+          </div>
         </div>
       </div>
 
@@ -348,6 +416,81 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:#185FA5;box-sh
       <div id="docs-list-wrap"><div class="empty-state">Loading...</div></div>
     </div>
     <div class="modal-footer"><button class="btn" onclick="closeModal('docs-modal')">Close</button></div>
+  </div>
+</div>
+
+<!-- FUND TRANSFER MODAL -->
+<div class="modal-backdrop" id="fund-modal">
+  <div class="modal" style="width:480px">
+    <div class="modal-header"><span class="modal-title">Add GPay Transfer</span><button class="close-btn" onclick="closeModal('fund-modal')">×</button></div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Transfer Date *</label><input id="f-date" type="date"></div>
+        <div class="form-group"><label class="form-label">Amount (₹) *</label><input id="f-amount" type="number" placeholder="e.g. 10000"></div>
+      </div>
+      <div class="form-group"><label class="form-label">GPay Reference / UTR No</label><input id="f-ref" placeholder="Transaction reference number"></div>
+      <div class="form-group"><label class="form-label">Note</label><input id="f-note" placeholder="Purpose of transfer"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('fund-modal')">Cancel</button>
+      <button class="btn btn-primary" id="fsave-btn" onclick="saveFund()">Save Transfer</button>
+    </div>
+  </div>
+</div>
+
+<!-- EXPENSE MODAL -->
+<div class="modal-backdrop" id="expense-modal">
+  <div class="modal" style="width:560px">
+    <div class="modal-header"><span class="modal-title" id="exp-modal-title">Add Expense</span><button class="close-btn" onclick="closeModal('expense-modal')">×</button></div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Expense Date *</label><input id="e-date" type="date"></div>
+        <div class="form-group"><label class="form-label">Amount (₹) *</label><input id="e-amount" type="number" placeholder="e.g. 500"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Site / Cost Center *</label>
+          <select id="e-site"><option value="">-- Select Site --</option></select>
+        </div>
+        <div class="form-group"><label class="form-label">Category *</label>
+          <select id="e-category">
+            <option value="">-- Select Category --</option>
+            <option>Fuel</option><option>Labour / Daily wages</option><option>Crane repairs / spare parts</option>
+            <option>Toll / transport</option><option>Food / accommodation</option><option>Crane hire charges</option><option>Miscellaneous</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group"><label class="form-label">Description</label><input id="e-desc" placeholder="Details of the expense"></div>
+      <div class="form-group"><label class="form-label">Status</label>
+        <select id="e-status"><option value="Pending">Pending (needs approval)</option><option value="Approved">Approved</option></select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('expense-modal')">Cancel</button>
+      <button class="btn btn-primary" id="esave-btn" onclick="saveExpense()">Save Expense</button>
+    </div>
+  </div>
+</div>
+
+<!-- SITE MODAL -->
+<div class="modal-backdrop" id="site-modal">
+  <div class="modal" style="width:480px">
+    <div class="modal-header"><span class="modal-title" id="site-modal-title">Add Site</span><button class="close-btn" onclick="closeModal('site-modal')">×</button></div>
+    <div class="modal-body">
+      <div class="form-group"><label class="form-label">Site Name *</label><input id="s-name" placeholder="e.g. Chennai Port Project"></div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Location</label><input id="s-location" placeholder="City / Area"></div>
+        <div class="form-group"><label class="form-label">Linked Crane</label>
+          <select id="s-crane"><option value="">-- Select Crane --</option></select>
+        </div>
+      </div>
+      <div class="form-group"><label class="form-label">Status</label>
+        <select id="s-status"><option>Active</option><option>Completed</option><option>On Hold</option></select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('site-modal')">Cancel</button>
+      <button class="btn btn-primary" id="ssave-btn" onclick="saveSite()">Save Site</button>
+    </div>
   </div>
 </div>
 
@@ -637,6 +780,154 @@ function switchTab(showId,el){
 }
 
 loadAll();
+
+// ===== ACCOUNTING MODULE =====
+let sites=[],funds=[],expenses=[],editSiteId=null,editExpenseId=null;
+
+function accTab(showId,el){
+  ['acc-overview','acc-ledger','acc-expenses','acc-sites'].forEach(id=>{const e=document.getElementById(id);if(e)e.style.display='none'});
+  document.getElementById(showId).style.display='block';
+  el.closest('.tab-bar').querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');
+  if(showId==='acc-overview'){loadAccounting().then(renderAccOverview)}
+  if(showId==='acc-ledger'){loadAccounting().then(renderFunds)}
+  if(showId==='acc-expenses'){loadAccounting().then(renderExpenses)}
+  if(showId==='acc-sites'){loadAccounting().then(renderSites)}
+}
+
+async function loadAccounting(){
+  try{[sites,funds,expenses]=await Promise.all([sbGet('sites'),sbGet('fund_transfers'),sbGet('expenses')])}
+  catch(e){toast('Accounting load error: '+e.message,true)}
+}
+
+function fmtCurrency(n){return'\u20b9'+Number(n).toLocaleString('en-IN',{minimumFractionDigits:0})}
+
+function renderAccOverview(){
+  const totalIn=funds.reduce((s,f)=>s+Number(f.amount),0);
+  const totalExp=expenses.reduce((s,e)=>s+Number(e.amount),0);
+  const balance=totalIn-totalExp;
+  const pending=expenses.filter(e=>e.status==='Pending').length;
+  document.getElementById('acc-total-in').textContent=fmtCurrency(totalIn);
+  document.getElementById('acc-total-exp').textContent=fmtCurrency(totalExp);
+  const balEl=document.getElementById('acc-balance');
+  balEl.textContent=fmtCurrency(balance);
+  balEl.style.color=balance<0?'#c5221f':balance<5000?'#856404':'#1e7e34';
+  document.getElementById('acc-pending').textContent=pending;
+  const cats={};
+  expenses.forEach(e=>{cats[e.category]=(cats[e.category]||0)+Number(e.amount)});
+  const catEl=document.getElementById('cat-breakdown');
+  if(!Object.keys(cats).length){catEl.innerHTML='<div style="color:#aaa;font-size:13px;text-align:center;padding:20px">No expenses yet</div>';}
+  else{const maxCat=Math.max(...Object.values(cats));catEl.innerHTML=Object.entries(cats).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span style="font-weight:500">${k}</span><span style="color:#185FA5;font-weight:600">${fmtCurrency(v)}</span></div><div style="background:#f0f0f0;border-radius:4px;height:6px"><div style="background:#185FA5;height:6px;border-radius:4px;width:${Math.round(v/maxCat*100)}%"></div></div></div>`).join('');}
+  const sitesMap={};
+  expenses.forEach(e=>{const sn=e.site_name||'No Site';sitesMap[sn]=(sitesMap[sn]||0)+Number(e.amount)});
+  const siteEl=document.getElementById('site-breakdown');
+  if(!Object.keys(sitesMap).length){siteEl.innerHTML='<div style="color:#aaa;font-size:13px;text-align:center;padding:20px">No expenses yet</div>';}
+  else{const maxSite=Math.max(...Object.values(sitesMap));siteEl.innerHTML=Object.entries(sitesMap).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span style="font-weight:500">${k}</span><span style="color:#1e7e34;font-weight:600">${fmtCurrency(v)}</span></div><div style="background:#f0f0f0;border-radius:4px;height:6px"><div style="background:#1e7e34;height:6px;border-radius:4px;width:${Math.round(v/maxSite*100)}%"></div></div></div>`).join('');}
+  const recent=[...funds.map(f=>({date:f.transfer_date,type:'credit',desc:'GPay Transfer'+(f.reference_no?' ('+f.reference_no+')':''),site:'-',amount:f.amount,status:'Completed'})),...expenses.map(e=>({date:e.expense_date,type:'debit',desc:e.description||e.category,site:e.site_name||'-',amount:e.amount,status:e.status}))].sort((a,b)=>new Date(b.date)-new Date(a.date)).slice(0,10);
+  const rb=document.getElementById('acc-recent');
+  rb.innerHTML=recent.length?recent.map(r=>`<tr><td>${r.date}</td><td><span class="badge ${r.type==='credit'?'badge-active':'badge-retired'}">${r.type==='credit'?'\u25b2 Transfer':'\u25bc Expense'}</span></td><td>${r.desc}</td><td>${r.site}</td><td style="font-weight:600;color:${r.type==='credit'?'#1e7e34':'#c5221f'}">${r.type==='credit'?'+':'-'}${fmtCurrency(r.amount)}</td><td><span class="badge ${r.status==='Approved'?'badge-active':r.status==='Pending'?'badge-maintenance':'badge-inactive'}">${r.status}</span></td></tr>`).join(''):'<tr><td colspan="6" class="empty-state">No transactions yet.</td></tr>';
+}
+
+function renderFunds(){
+  const tb=document.getElementById('fund-tbody');
+  tb.innerHTML=funds.length?funds.map(f=>`<tr><td>${f.transfer_date}</td><td style="font-weight:600;color:#1e7e34">${fmtCurrency(f.amount)}</td><td style="font-size:11px;font-family:monospace">${f.reference_no||'-'}</td><td>${f.note||'-'}</td><td><button class="action-btn del" onclick="deleteFund('${f.id}')">Del</button></td></tr>`).join(''):'<tr><td colspan="5" class="empty-state">No transfers yet.</td></tr>';
+}
+
+function populateSiteDropdowns(){
+  const opts='<option value="">-- Select Site --</option>'+sites.map(s=>`<option value="${s.id}">${s.name}</option>`).join('');
+  document.getElementById('e-site').innerHTML=opts;
+  document.getElementById('exp-filter-site').innerHTML='<option value="">All Sites</option>'+sites.map(s=>`<option value="${s.id}">${s.name}</option>`).join('');
+}
+
+function populateSiteCraneDropdown(){
+  document.getElementById('s-crane').innerHTML='<option value="">-- Select Crane --</option>'+cranes.map(c=>`<option value="${c.id}">${c.reg} \u2014 ${c.model}</option>`).join('');
+}
+
+function renderExpenses(){
+  const siteFilter=document.getElementById('exp-filter-site').value;
+  const catFilter=document.getElementById('exp-filter-cat').value;
+  let filtered=expenses;
+  if(siteFilter)filtered=filtered.filter(e=>e.site_id===siteFilter);
+  if(catFilter)filtered=filtered.filter(e=>e.category===catFilter);
+  const tb=document.getElementById('exp-tbody');
+  tb.innerHTML=filtered.length?filtered.map(e=>`<tr><td>${e.expense_date}</td><td>${e.site_name||'-'}</td><td><span style="font-size:11px;background:#f0f4ff;color:#185FA5;padding:2px 8px;border-radius:10px">${e.category}</span></td><td>${e.description||'-'}</td><td style="font-weight:600;color:#c5221f">${fmtCurrency(e.amount)}</td><td><span class="badge ${e.status==='Approved'?'badge-active':'badge-maintenance'}">${e.status}</span></td><td style="white-space:nowrap">${e.status==='Pending'?`<button class="action-btn" style="color:#1e7e34;border-color:#c3e6cb" onclick="approveExpense('${e.id}')">\u2713 Approve</button> `:''}<button class="action-btn del" onclick="deleteExpense('${e.id}')">Del</button></td></tr>`).join(''):'<tr><td colspan="7" class="empty-state">No expenses found.</td></tr>';
+}
+
+function renderSites(){
+  const tb=document.getElementById('site-tbody');
+  tb.innerHTML=sites.length?sites.map(s=>{
+    const siteExp=expenses.filter(e=>e.site_id===s.id).reduce((sum,e)=>sum+Number(e.amount),0);
+    const crane=cranes.find(c=>c.id===s.crane_id);
+    return`<tr><td style="font-size:11px;font-family:monospace">${s.id}</td><td style="font-weight:600">${s.name}</td><td>${s.location||'-'}</td><td>${crane?crane.reg+' \u2014 '+crane.model:'-'}</td><td><span class="badge ${s.status==='Active'?'badge-active':s.status==='Completed'?'badge-inactive':'badge-maintenance'}">${s.status}</span></td><td style="font-weight:600;color:#c5221f">${fmtCurrency(siteExp)}</td><td><button class="action-btn" onclick="editSite('${s.id}')">Edit</button> <button class="action-btn del" onclick="deleteSite('${s.id}')">Del</button></td></tr>`;
+  }).join(''):'<tr><td colspan="7" class="empty-state">No sites yet.</td></tr>';
+}
+
+async function saveFund(){
+  const date=document.getElementById('f-date').value,amount=document.getElementById('f-amount').value;
+  if(!date||!amount){toast('Date and amount required.',true);return}
+  const btn=document.getElementById('fsave-btn');btn.textContent='Saving...';btn.disabled=true;
+  try{
+    await sbInsert('fund_transfers',{id:'F-'+Date.now().toString(36).toUpperCase(),transfer_date:date,amount:Number(amount),payment_mode:'GPay',reference_no:document.getElementById('f-ref').value,note:document.getElementById('f-note').value});
+    toast('GPay transfer saved.');closeModal('fund-modal');
+    ['f-date','f-amount','f-ref','f-note'].forEach(i=>document.getElementById(i).value='');
+    await loadAccounting();renderFunds();renderAccOverview();
+  }catch(e){toast('Error: '+e.message,true)}
+  btn.textContent='Save Transfer';btn.disabled=false;
+}
+
+async function deleteFund(id){if(!confirm('Delete?'))return;try{await sbDelete('fund_transfers',id);toast('Deleted.');await loadAccounting();renderFunds();renderAccOverview()}catch(e){toast('Error: '+e.message,true)}}
+
+async function saveExpense(){
+  const date=document.getElementById('e-date').value,amount=document.getElementById('e-amount').value,siteId=document.getElementById('e-site').value,cat=document.getElementById('e-category').value;
+  if(!date||!amount||!siteId||!cat){toast('Date, amount, site and category are required.',true);return}
+  const site=sites.find(s=>s.id===siteId);
+  const btn=document.getElementById('esave-btn');btn.textContent='Saving...';btn.disabled=true;
+  try{
+    const data={expense_date:date,amount:Number(amount),site_id:siteId,site_name:site?site.name:'',category:cat,description:document.getElementById('e-desc').value,status:document.getElementById('e-status').value};
+    if(editExpenseId){await sbUpdate('expenses',editExpenseId,data);toast('Updated.');editExpenseId=null}
+    else{data.id='E-'+Date.now().toString(36).toUpperCase();await sbInsert('expenses',data);toast('Expense saved.')}
+    closeModal('expense-modal');await loadAccounting();renderExpenses();renderAccOverview();
+  }catch(e){toast('Error: '+e.message,true)}
+  btn.textContent='Save Expense';btn.disabled=false;
+}
+
+async function approveExpense(id){try{await sbUpdate('expenses',id,{status:'Approved'});toast('Approved.');await loadAccounting();renderExpenses();renderAccOverview()}catch(e){toast('Error: '+e.message,true)}}
+async function deleteExpense(id){if(!confirm('Delete?'))return;try{await sbDelete('expenses',id);toast('Deleted.');await loadAccounting();renderExpenses();renderAccOverview()}catch(e){toast('Error: '+e.message,true)}}
+
+async function saveSite(){
+  const name=document.getElementById('s-name').value.trim();
+  if(!name){toast('Site name required.',true);return}
+  const btn=document.getElementById('ssave-btn');btn.textContent='Saving...';btn.disabled=true;
+  try{
+    const data={name,location:document.getElementById('s-location').value,crane_id:document.getElementById('s-crane').value||null,status:document.getElementById('s-status').value};
+    if(editSiteId){await sbUpdate('sites',editSiteId,data);toast('Site updated.');editSiteId=null}
+    else{data.id='S-'+Date.now().toString(36).toUpperCase();await sbInsert('sites',data);toast('Site saved.')}
+    closeModal('site-modal');await loadAccounting();renderSites();populateSiteDropdowns();
+  }catch(e){toast('Error: '+e.message,true)}
+  btn.textContent='Save Site';btn.disabled=false;
+}
+
+function editSite(id){
+  const s=sites.find(x=>x.id===id);if(!s)return;editSiteId=id;populateSiteCraneDropdown();
+  document.getElementById('s-name').value=s.name||'';document.getElementById('s-location').value=s.location||'';
+  document.getElementById('s-crane').value=s.crane_id||'';document.getElementById('s-status').value=s.status||'Active';
+  document.getElementById('site-modal-title').textContent='Edit Site';document.getElementById('site-modal').classList.add('open');
+}
+
+async function deleteSite(id){if(!confirm('Delete?'))return;try{await sbDelete('sites',id);toast('Deleted.');await loadAccounting();renderSites()}catch(e){toast('Error: '+e.message,true)}}
+
+function openAccModal(id){
+  if(id==='fund-modal'){['f-date','f-amount','f-ref','f-note'].forEach(i=>document.getElementById(i).value='');document.getElementById('fund-modal').classList.add('open')}
+  if(id==='expense-modal'){editExpenseId=null;populateSiteDropdowns();['e-date','e-amount','e-desc'].forEach(i=>document.getElementById(i).value='');document.getElementById('e-site').value='';document.getElementById('e-category').value='';document.getElementById('e-status').value='Pending';document.getElementById('expense-modal').classList.add('open')}
+  if(id==='site-modal'){editSiteId=null;populateSiteCraneDropdown();['s-name','s-location'].forEach(i=>document.getElementById(i).value='');document.getElementById('s-crane').value='';document.getElementById('s-status').value='Active';document.getElementById('site-modal-title').textContent='Add Site';document.getElementById('site-modal').classList.add('open')}
+}
+
+// Navigate to accounting loads data
+const _navOrig=navigate;
+function navigate(page,el){
+  _navOrig(page,el);
+  if(page==='accounting'){loadAccounting().then(()=>{renderAccOverview();populateSiteDropdowns()})}
+}
+
 </script>
 </body>
 </html>
